@@ -13,6 +13,20 @@ Graph.prototype.AddNode = function () {
 }
 
 function Eventer () {
+	this.appui = document.getElementById("app");
+	this.bind();
+}
+
+Eventer.prototype.bind = function () {
+	this.appui.addEventListener("touchend", function (e) {
+		e.preventDefault();
+	}, false);
+	this.appui.addEventListener("touchmove", function (e) {
+		e.preventDefault();
+	}, false);
+	this.appui.addEventListener("touchstart", function (e) {
+		e.preventDefault();
+	}, false);
 }
 
 function Render () {
