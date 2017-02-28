@@ -1,6 +1,7 @@
-//author.name = 'FIRERAIN';
-//author.email = 'fr440305@gmail.com';
-//project.appjs.name = 'app.js';
+
+///author.name = 'FIRERAIN';
+///author.email = 'fr440305@gmail.com';
+///project.appjs.name = 'app.js';
 
 function Log (txt) {console.log(txt);}
 
@@ -9,11 +10,15 @@ function Graph () {
 	this.branches = [];
 }
 
+Graph.prototype.LoadLevel = function (level_json) {
+}
+
 Graph.prototype.AddNode = function () {
 }
 
 function Eventer () {
 	this.appui = document.getElementById("app");
+	//this.stat = {};
 	this.bind();
 }
 
@@ -53,10 +58,7 @@ function App () {
 	setInterval(function(){Me.looper()}, 1000 / Me.frame_rate);
 }
 
-
 App.prototype.looper = function () {
 }
-
-
 
 new App();
