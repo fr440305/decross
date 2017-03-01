@@ -9,7 +9,7 @@ function Log (txt) {console.log(txt);}
 //the structure of nodes and branches needs to be explained.
 function Graph () {
 	this.nodes = [{x: 100, y: 100}, {x:200, y:200}, {x:300, y:300}, {x:100, y:300}];
-	this.branches = [[1, 2, 3], [0, 2, 3], [0, 1, 3], [0, 1, 2]]; // two-dimension array
+	this.branches = [[1, 2, 3], [2, 3], [1, 3], [1, 2]]; // two-dimension array
 }
 
 Graph.prototype.Move = function (index, new_x, new_y) {
