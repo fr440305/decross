@@ -121,12 +121,16 @@ App.prototype.looper = function () {
 	var nodes = this.graph.Get("nodes");
 	var toustat = this.eventer.Get("touch-stat");
 	var toupoint = this.eventer.Get("touch-point");
+	var dx, dy;
+	//check if player touches the nodes. if it is then move that node.
 	for (var i = 0; i < nodes.length; i++) {
-		if((Math.pow(toupoint.x-nodes[i].x,2)+Math.pow(toupoint.y-nodes[i].y, 2) <= 25*25)&&toustat ===1 ) {
+		dx = toupoint.x - nodes[i].x;
+		dy = toupoint.y - nodes[i].y;
+		if((Math.pow(dx, 2)+Math.pow(dy, 2) <= 25*25) && toustat === 1 ) {
 			this.graph.Move(i, toupoint.x, toupoint.y);
 		}
 	}
-	this.render.Looper(toupoint, this.graph.Get("nodes") );
+	this.render.Looper(toupoint, nodes);
 }
 
 new App();
