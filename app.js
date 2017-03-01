@@ -71,7 +71,7 @@ Eventer.prototype.bind = function () {
 function Render () {
 	this.appui = document.getElementById("app");
 	this.appctx = this.appui.getContext("2d");
-	this.Rect('green', 0, 0, 100, 100);
+	//this.rect('green', 0, 0, 100, 100);
 }
 
 Render.prototype.Text = function (color, text) {
@@ -80,10 +80,17 @@ Render.prototype.Text = function (color, text) {
 }
 
 Render.prototype.Clear =  function () {
-	this.Rect("white", 0, 0, this.appui.width, this.appui.height);
+	this.rect("white", 0, 0, this.appui.width, this.appui.height);
 }
 
-Render.prototype.Rect = function (color, x0, y0, dx, dy) {
+Render.prototype.Circle = function (color, x0, y0, r) {
+	this.appctx.fillStyle = color;
+	this.appctx.beginPath();
+	this.appctx.arc(x0, y0, r, 0, 6.28, false);
+	this.appctx.fill();
+}
+
+Render.prototype.rect = function (color, x0, y0, dx, dy) {
 	this.appctx.fillStyle = color;
 	this.appctx.fillRect(x0, y0, dx, dy);
 }
@@ -93,7 +100,7 @@ Render.prototype.Looper = function (touch_point, nodes) {
 	this.Text("blue", touch_point.x.toString()+', '+touch_point.y.toString());
 	//this.Text("blue", touch_stat.toString());
 	for (var i = 0; i < nodes.length; i++) {
-		this.Rect("black", nodes[i].x - 25, nodes[i].y - 25, 50, 50);
+		this.Circle("black", nodes[i].x, nodes[i].y, 25);
 	}
 	//Log("123");
 }
