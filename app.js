@@ -104,7 +104,7 @@ function App () {
 	this.graph = new Graph();
 	this.render = new Render();
 	this.eventer = new Eventer();
-	this.frame_rate = 25; //fps
+	this.frame_rate = 60; //fps
 	var Me = this;
 	setInterval(function(){Me.looper()}, 1000 / Me.frame_rate);
 }
