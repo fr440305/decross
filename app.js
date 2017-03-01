@@ -7,8 +7,14 @@ function Log (txt) {console.log(txt);}
 
 //Graph::$
 function Graph () {
-	this.nodes = [{x: 100, y: 100}];
+	this.nodes = [{x: 100, y: 100}, {x:200, y:200}];
 	this.branches = [];
+}
+
+Graph.prototype.Move = function (index, new_x, new_y) {
+	//Log ("Move - " + index.toString());
+	this.nodes[index].x = new_x;
+	this.nodes[index].y = new_y;
 }
 
 Graph.prototype.LoadLevel = function (level_json) {
@@ -105,7 +111,15 @@ function App () {
 
 App.prototype.looper = function () {
 	//Log("ad");
-	this.render.Looper(this.eventer.Get("touch-point"), this.graph.Get("nodes") );
+	var nodes = this.graph.Get("nodes");
+	var toustat = this.eventer.Get("touch-stat");
+	var toupoint = this.eventer.Get("touch-point");
+	for (var i = 0; i < nodes.length; i++) {
+		if((Math.pow(toupoint.x-nodes[i].x,2)+Math.pow(toupoint.y-nodes[i].y, 2) <= 25*25)&&toustat ===1 ) {
+			this.graph.Move(i, toupoint.x, toupoint.y);
+		}
+	}
+	this.render.Looper(toupoint, this.graph.Get("nodes") );
 }
 
 new App();
