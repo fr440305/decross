@@ -6,9 +6,10 @@
 function Log (txt) {console.log(txt);}
 
 //Graph::$
+//the structure of nodes and branches needs to be explained.
 function Graph () {
 	this.nodes = [{x: 100, y: 100}, {x:200, y:200}];
-	this.branches = [];
+	this.branches = [[1], [0]]; // two-dimension array
 }
 
 Graph.prototype.Move = function (index, new_x, new_y) {
@@ -25,7 +26,8 @@ Graph.prototype.AddNode = function () {
 
 Graph.prototype.Get = function (what) {
 	return {
-		"nodes": this.nodes // need to change it to deep_copy.
+		"nodes": this.nodes, // need to change it to deep_copy.
+		"branches": this.branches
 	}[what];
 }
 
@@ -68,15 +70,24 @@ Eventer.prototype.bind = function () {
 	}, false);
 }
 
+///Render::$
 function Render () {
 	this.appui = document.getElementById("app");
-	this.appctx = this.appui.getContext("2d");
+	this.appcx = this.appui.getContext("2d");
 	//this.rect('green', 0, 0, 100, 100);
 }
 
+Render.prototype.Line = function (color, x0, y0, x1, y1) {
+	this.appcx.strokeStyle = color;
+	this.appcx.beginPath();
+	this.appcx.moveTo(x0, y0);
+	this.appcx.lineTo(x1, y1);
+	this.appcx.stroke();
+}
+
 Render.prototype.Text = function (color, text) {
-	this.appctx.fillStyle = color; 
-	this.appctx.fillText(text, 10, 10);
+	this.appcx.fillStyle = color; 
+	this.appcx.fillText(text, 10, 10);
 }
 
 Render.prototype.Clear =  function () {
@@ -84,23 +95,33 @@ Render.prototype.Clear =  function () {
 }
 
 Render.prototype.Circle = function (color, x0, y0, r) {
-	this.appctx.fillStyle = color;
-	this.appctx.beginPath();
-	this.appctx.arc(x0, y0, r, 0, 6.28, false);
-	this.appctx.fill();
+	this.appcx.fillStyle = color;
+	this.appcx.beginPath();
+	this.appcx.arc(x0, y0, r, 0, 6.28, false);
+	this.appcx.fill();
 }
 
 Render.prototype.rect = function (color, x0, y0, dx, dy) {
-	this.appctx.fillStyle = color;
-	this.appctx.fillRect(x0, y0, dx, dy);
+	this.appcx.fillStyle = color;
+	this.appcx.fillRect(x0, y0, dx, dy);
 }
 
-Render.prototype.Looper = function (touch_point, nodes) {
+Render.prototype.Looper = function (touch_point, nodes, branches) {
 	this.Clear();
 	this.Text("blue", touch_point.x.toString()+', '+touch_point.y.toString());
 	//this.Text("blue", touch_stat.toString());
+	//draw the nodes.
+	var x0, y0, x1, y1;
 	for (var i = 0; i < nodes.length; i++) {
 		this.Circle("black", nodes[i].x, nodes[i].y, 25);
+	}
+	for (var i = 0; i < branches.length; i++) {
+		for (var j = 0; j < branches[i].length; j++) {
+			x0 = nodes[i].x; y0 = nodes[i].y;
+			x1 = nodes[j].x; y1 = nodes[j].y;
+			//Log("connect:");
+			this.Line("red", x0, y0, x1, y1);
+		}
 	}
 	//Log("123");
 }
@@ -119,6 +140,7 @@ function App () {
 App.prototype.looper = function () {
 	//Log("ad");
 	var nodes = this.graph.Get("nodes");
+	var branches = this.graph.Get("branches");
 	var toustat = this.eventer.Get("touch-stat");
 	var toupoint = this.eventer.Get("touch-point");
 	var dx, dy;
@@ -130,7 +152,7 @@ App.prototype.looper = function () {
 			this.graph.Move(i, toupoint.x, toupoint.y);
 		}
 	}
-	this.render.Looper(toupoint, nodes);
+	this.render.Looper(toupoint, nodes, branches);
 }
 
 new App();
