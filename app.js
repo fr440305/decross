@@ -12,23 +12,25 @@ function Graph () {
 	this.branches = [[1, 2, 3], [2, 3], [1, 3], [1, 2]]; // two-dimension array
 }
 
+//Graph::Move:
+//() -> ();
 Graph.prototype.Move = function (index, new_x, new_y) {
 	//Log ("Move - " + index.toString());
 	this.nodes[index].x = new_x;
 	this.nodes[index].y = new_y;
 }
 
-Graph.prototype.LoadLevel = function (level_json) {
-}
-
-Graph.prototype.AddNode = function () {
-}
-
 Graph.prototype.Get = function (what) {
 	return {
-		"nodes": this.nodes, // need to change it to deep_copy.
+		"nodes": this.nodes, // TODO - need to change it to deep_copy.
 		"branches": this.branches
 	}[what];
+}
+
+Graph.prototype.CrossChecker = function () {
+}
+
+Graph.prototype.IsWin = function () {
 }
 
 //Eventer::$
@@ -36,7 +38,6 @@ function Eventer () {
 	this.touch_stat = 0; // 0 for untouched and 1 for touched.
 	this.touch_point = {x: 0, y: 0};
 	this.appui = document.getElementById("app");
-	//this.stat = {};
 	this.bind();
 }
 
